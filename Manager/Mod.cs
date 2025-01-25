@@ -14,14 +14,15 @@ namespace LethalCompanyModManager
         public const string URI_THUNDERSTORE_ROUTE_LETHAL_COMPANY = "/c/lethal-company/p";
 
         public static Dictionary<string, string> Cache { get; private set; } = [];
+        public static Random Random { get; private set; } = new Random();
 
         public string Name { get; private set; } = name;
         public string Link { get; private set; } = "";
         public Mod[] Sources { get; private set; } = [];
 
-        public async Task<Mod> Initialize(uint throttle)
+        public async Task<Mod> Initialize(int throttle)
         {
-            Thread.Sleep((int)throttle);
+            Thread.Sleep(throttle + Random.Next(-throttle / 8, throttle / 8));
 
             using var client = new HttpClient();
 
