@@ -2,13 +2,17 @@ namespace LethalCompanyModManager
 {
     public static class Program
     {
+        public const string LOG_INFO_CODE = "Please enter the modpack code: ";
+
         public static async Task Main()
         {
-            var list = new List<string> { "qwbarch/Mirage", "FlipMods/ReservedFlashlightSlot" };
+            string? code;
+            do
+            {
+                Console.Write(LOG_INFO_CODE);
+            } while ((code = Console.ReadLine() ?? "").Length == 0);
 
-            var mods = await Task.WhenAll(list.Select((name) => new Mod(name).Load()));
-
-            var archives = await Task.WhenAll(Mod.GetAllSources(mods).Select((mod) => mod.Download()));
+            await Modpack.Install(code);
         }
     }
 }

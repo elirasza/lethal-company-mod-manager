@@ -1,17 +1,25 @@
-# library files
-/Libraries/
-
 # build files
 bin/
 obj/
 
+# config files
+/Config/
+
+# env files
+.env
+
+# ide files
+.vscode/
 .idea/
+
+# keep files
+!**/.keep
+
+# library files
+/Libraries/
 
 # pack files
 /Build/
 
 # user files
 /*.user
-
-# keep files
-!**/.keep

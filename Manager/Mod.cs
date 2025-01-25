@@ -15,7 +15,7 @@ namespace LethalCompanyModManager
         public string Link { get; private set; } = "";
         public Mod[] Sources { get; private set; } = [];
 
-        public async Task<Mod> Load()
+        public async Task<Mod> Initialize()
         {
             using var client = new HttpClient();
 
@@ -37,7 +37,7 @@ namespace LethalCompanyModManager
                 .Select((node) => node.GetAttributeValue("href", ""))
                 .Where((href) => href.Length > 0)
                 .Select((href) => href.Replace(URI_THUNDERSTORE_ROUTE_LETHAL_COMPANY, "").Trim('/'))
-                .Select((name) => new Mod(name).Load());
+                .Select((name) => new Mod(name).Initialize());
 
             Link = root.QuerySelector("i.fa-download")?.ParentNode.GetAttributeValue("href", "") ?? "";
             Sources = await Task.WhenAll(requirements);
