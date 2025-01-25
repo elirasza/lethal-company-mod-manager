@@ -8,14 +8,7 @@ namespace LethalCompanyModManager
 
             var mods = await Task.WhenAll(list.Select((name) => new Mod(name).Load()));
 
-            Mod.GetAllSources(mods)
-                .ToList()
-                .ForEach(
-                    (mod) =>
-                    {
-                        Console.WriteLine($"Downloading {mod.Name}...");
-                    }
-                );
+            var archives = await Task.WhenAll(Mod.GetAllSources(mods).Select((mod) => mod.Download()));
         }
     }
 }
