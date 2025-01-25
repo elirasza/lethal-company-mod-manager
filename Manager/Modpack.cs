@@ -1,13 +1,17 @@
 using System.IO.Compression;
+using LethalCompanyModManager.Utils;
 
 namespace LethalCompanyModManager
 {
     public static class Modpack
     {
         public const string KEY_BEPINEX = "BepInEx";
+        public const string KEY_BEPINEX_CONFIG = "config";
         public const string KEY_BEPINEX_PLUGINS = "plugins";
         public const string KEY_BEPINEXPACK = "BepInExPack/";
+        public const string KEY_CONFIG = "Config";
         public const string LOG_INFO_CLEANING = "Cleaning {0}...";
+        public const string LOG_INFO_CONFIG = "Copying config from {0} to {1}...";
         public const string LOG_INFO_EXTRACTING = "Extracting {0} mods...";
         public const string LOG_INFO_DOWNLOADING = "Downloading mods {0} and requirements...";
         public const string LOG_INFO_FETCHING = "Fetching mods requirements...";
@@ -33,13 +37,19 @@ namespace LethalCompanyModManager
             if (Path.Exists(pathBepInEx))
             {
                 Console.WriteLine(LOG_INFO_CLEANING, pathBepInEx);
-                Directory.Delete(pathBepInEx, true);
+                Directory.Delete(pathBepInEx, recursive: true);
             }
 
             Console.WriteLine(LOG_INFO_EXTRACTING, archives.Length);
             var reports = archives.SelectMany(archive => archive.Entries).Select(entry => InstallFile(entry, path)).ToArray();
 
             Console.WriteLine(LOG_INFO_SUCCESS, reports.Length);
+
+            var pathConfigSource = Path.Join(AppDomain.CurrentDomain.BaseDirectory, KEY_CONFIG);
+            var pathConfigDestination = Path.Join(pathBepInEx, KEY_BEPINEX_CONFIG);
+
+            Console.WriteLine(LOG_INFO_CONFIG, pathConfigSource, pathConfigDestination);
+            DirectoryExtensions.Copy(pathConfigSource, pathConfigDestination);
         }
 
         private static string InstallFile(ZipArchiveEntry source, string destination)
@@ -71,7 +81,7 @@ namespace LethalCompanyModManager
             {
                 Console.WriteLine(destinationFile);
                 Directory.CreateDirectory(destinationDirectory);
-                source.ExtractToFile(destinationFile, true);
+                source.ExtractToFile(destinationFile, overwrite: true);
             }
 
             return Path.Exists(destinationFile) ? destinationFile : "";
