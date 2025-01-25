@@ -4,7 +4,7 @@ namespace LethalCompanyModManager
     {
         public static Mod[] GetAllSources(Mod[] mods)
         {
-            return [.. mods.SelectMany(mod => GetAllSources(mod.Sources).Append(mod).Distinct())];
+            return [.. mods.SelectMany(mod => GetAllSources(mod.Sources).Append(mod)).Distinct()];
         }
     }
 }
