@@ -28,7 +28,7 @@ namespace LethalCompanyModManager
             Console.WriteLine(LOG_INFO_GAME, path);
 
             Console.WriteLine(LOG_INFO_FETCHING);
-            var mods = await Task.WhenAll(code.Split(",").Select((name) => new Mod(name).Initialize()));
+            var mods = await Task.WhenAll(code.Split(",").Select((name) => new Mod(name).Initialize(throttle: 1000)));
 
             Console.WriteLine(LOG_INFO_DOWNLOADING, string.Join(", ", mods.Select(mod => mod.Name)));
             var archives = await Task.WhenAll(Mod.GetAllSources(mods).Select((mod) => mod.Download()));
