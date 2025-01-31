@@ -18,7 +18,8 @@ namespace LethalCompanyModManager
         public const string LOG_INFO_GAME = "Found game at {0}...";
         public const string LOG_INFO_SUCCESS = "Successfully installed {0} files.";
 
-        public static readonly string[] PATTERN_BLACKLIST = ["icon.png", "manifest.json", "README", "README.md", "LICENSE", "LICENSE.md", "CHANGELOG", "CHANGELOG.md"];
+        public static readonly string[] PATTERN_BLACKLIST = ["manifest.json", "README", "LICENSE", "CHANGELOG"];
+        public static readonly string[] PATTERN_BLACKLIST_EXTENSIONS = [".png", ".txt", ".md"];
         public static readonly string[] PATTERN_BEPINEX_ROOT = ["doorstop_config.ini", "winhttp.dll"];
         public static readonly string[] PATTERN_BEPINEX_DIRECTORY = ["config", "core", "patchers", "plugins"];
 
@@ -55,7 +56,13 @@ namespace LethalCompanyModManager
         private static string InstallFile(ZipArchiveEntry source, string destination)
         {
             var name = source.FullName;
+
             if (PATTERN_BLACKLIST.Contains(source.Name) || name.EndsWith('/'))
+            {
+                return "";
+            }
+
+            if (PATTERN_BLACKLIST_EXTENSIONS.Any(name.EndsWith))
             {
                 return "";
             }
