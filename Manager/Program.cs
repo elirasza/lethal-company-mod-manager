@@ -12,7 +12,7 @@ namespace LethalCompanyModManager
             var pathList = Path.Join(AppDomain.CurrentDomain.BaseDirectory, KEY_LIST);
             if (File.Exists(pathList))
             {
-                code = File.ReadAllText(pathList).ReplaceLineEndings(",");
+                code = string.Join(',', File.ReadAllText(pathList).Split("\n", StringSplitOptions.RemoveEmptyEntries));
             }
             else
             {
