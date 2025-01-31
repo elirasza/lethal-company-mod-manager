@@ -6,12 +6,11 @@ namespace LethalCompanyModManager
     public static class Modpack
     {
         public const string KEY_BEPINEX = "BepInEx";
-        public const string KEY_BEPINEX_CONFIG = "config";
         public const string KEY_BEPINEX_PLUGINS = "plugins";
         public const string KEY_BEPINEXPACK = "BepInExPack/";
-        public const string KEY_CONFIG = "Config";
+        public const string KEY_PATCH = "Patch";
         public const string LOG_INFO_CLEANING = "Cleaning {0}...";
-        public const string LOG_INFO_CONFIG = "Copying config from {0} to {1}...";
+        public const string LOG_INFO_PATCH = "Copying patch from {0} to {1}...";
         public const string LOG_INFO_EXTRACTING = "Extracting {0} mods...";
         public const string LOG_INFO_DOWNLOADING = "Downloading mods {0} and requirements...";
         public const string LOG_INFO_FETCHING = "Fetching mods requirements...";
@@ -46,11 +45,10 @@ namespace LethalCompanyModManager
 
             Console.WriteLine(LOG_INFO_SUCCESS, reports.Length);
 
-            var pathConfigSource = Path.Join(AppDomain.CurrentDomain.BaseDirectory, KEY_CONFIG);
-            var pathConfigDestination = Path.Join(pathBepInEx, KEY_BEPINEX_CONFIG);
+            var pathPatchSource = Path.Join(AppDomain.CurrentDomain.BaseDirectory, KEY_PATCH);
 
-            Console.WriteLine(LOG_INFO_CONFIG, pathConfigSource, pathConfigDestination);
-            DirectoryExtensions.Copy(pathConfigSource, pathConfigDestination);
+            Console.WriteLine(LOG_INFO_PATCH, pathPatchSource, pathBepInEx);
+            DirectoryExtensions.Copy(pathPatchSource, pathBepInEx);
         }
 
         private static string InstallFile(ZipArchiveEntry source, string destination)
