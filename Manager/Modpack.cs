@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO.Compression;
 using LethalCompanyModManager.Utils;
 
@@ -79,6 +80,14 @@ namespace LethalCompanyModManager
             {
                 name = Path.Join(KEY_BEPINEX, KEY_BEPINEX_PLUGINS, name);
             }
+
+            Array.ForEach(
+                PATTERN_BEPINEX_DIRECTORY,
+                directory =>
+                {
+                    name = name.Replace(string.Format("/{0}/", new CultureInfo("en-US").TextInfo.ToTitleCase(directory)), string.Format("/{0}/", directory));
+                }
+            );
 
             var destinationFile = Path.Join(destination, name);
             var destinationDirectory = Path.GetDirectoryName(destinationFile);
